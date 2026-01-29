@@ -25,37 +25,16 @@
     "sbs": {
       "title": "Korean SBS",
       "uri": "kradio/sbs",
-      "baseStreamUrl": "http://apis.sbs.co.kr/play-api/1.0/gorealrastream/"
+      "baseStreamUrl": "http://apis.sbs.co.kr/play-api/1.0/livestream/"
     },
     "mbc": {
       "title": "Korean MBC",
       "uri": "kradio/mbc",
       "baseStreamUrl": "http://sminiplay.imbc.com/aacplay.ashx"
-    },
-    "linn": {
-      "title": "Linn",
-      "uri": "kradio/linn"
     }
   },
 
   "stations": {
-    "linn": [
-      {
-        "title": "Linn Jazz",
-        "uri": "weblinn/0",
-        "url": "http://radio.linnrecords.com:8000/stream"
-      },
-      {
-        "title": "Linn Radio",
-        "uri": "weblinn/1",
-        "url": "http://radio.linnrecords.com:8003/stream"
-      },
-      {
-        "title": "Linn Classic",
-        "uri": "weblinn/2",
-        "url": "http://radio.linnrecords.com:8004/stream"
-      }
-    ],
     "kbs": [
       {
         "title": "KBS 1FM(Classic)",
@@ -109,17 +88,12 @@
       {
         "title": "SBS Love FM",
         "uri": "websbs/0",
-        "channel": "RA01"
+        "channel": "lovepc/lovefm"
       },
       {
         "title": "SBS Power FM",
         "uri": "websbs/1",
-        "channel": "RA02"
-      },
-      {
-        "title": "SBS Internet Radio",
-        "uri": "websbs/2",
-        "channel": "RA03"
+        "channel": "powerpc/powerfm"
       }
     ]
   }

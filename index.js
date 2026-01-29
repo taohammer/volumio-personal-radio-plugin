@@ -144,9 +144,6 @@ ControllerPersonalRadio.prototype.handleBrowseUri = function (curUri) {
     else if (curUri === 'kradio/mbc') {
       response = self.getRadioContent('mbc');
     }
-    else if (curUri === 'kradio/linn') {
-      response = self.getRadioContent('linn');
-    }
     else {
       response = libQ.reject();
     }
@@ -194,8 +191,6 @@ ControllerPersonalRadio.prototype.getRadioContent = function(station) {
     case 'mbc':
       radioStation = self.radioStations.mbc;
       break;
-    case 'linn':
-      radioStation = self.radioStations.linn;
   }
 
   response = self.radioNavigation;
@@ -352,16 +347,16 @@ ControllerPersonalRadio.prototype.explodeUri = function (uri) {
       break;
 
     case 'websbs':
+      query = {
+        protocol: "hls",
+        ssl: "Y"
+      };
       var streamUrl = self.rootStations.sbs.baseStreamUrl + self.radioStations.sbs[channel].channel;
-      self.fetchRadioUrl(station, streamUrl, {device: "mobile"})
+      self.fetchRadioUrl(station, streamUrl, query)
         .then(function (responseUrl) {
           if (responseUrl  !== null) {
-            var decipher = crypto.createDecipheriv("des-ecb", '7d1ff4ea', "");
-            var streamUrl = decipher.update(responseUrl, 'base64', 'utf8');
-            streamUrl += decipher.final('utf8');
-
             response["uri"] = uri;
-            response["realUri"] = streamUrl;
+            response["realUri"] = responseUrl;
             response["name"] = self.radioStations.sbs[channel].title;
           }
           self.state = {
@@ -375,9 +370,7 @@ ControllerPersonalRadio.prototype.explodeUri = function (uri) {
     case 'webmbc':
       query = {
         channel: self.radioStations.mbc[channel].channel,
-        agent: "webapp",
-        protocol: "M3U8",
-        nocash: Math.random()
+        agent: "webapp"
       };
       var streamUrl = self.rootStations.mbc.baseStreamUrl;
       self.fetchRadioUrl(station, streamUrl, query)
@@ -393,17 +386,6 @@ ControllerPersonalRadio.prototype.explodeUri = function (uri) {
           responseResult.push(response);
           defer.resolve(responseResult);
         });
-      break;
-
-    case 'weblinn':
-      response["uri"] = uri;
-      response["realUri"] = self.radioStations.linn[channel].url;
-      response["name"] = self.radioStations.linn[channel].title;
-      self.state = {
-        station: station
-      }
-      responseResult.push(response);
-      defer.resolve(responseResult);
       break;
 
     default:
@@ -477,7 +459,6 @@ ControllerPersonalRadio.prototype.addRadioResource = function() {
   self.radioStations.mbc[2].title =  self.getRadioI18nString('MBC_CHANNEL_M');
   self.radioStations.sbs[0].title =  self.getRadioI18nString('SBS_LOVE_FM');
   self.radioStations.sbs[1].title =  self.getRadioI18nString('SBS_POWER_FM');
-  self.radioStations.sbs[2].title =  self.getRadioI18nString('SBS_INTERNET_RADIO');
 };
 
 ControllerPersonalRadio.prototype.loadRadioI18nStrings = function () {
